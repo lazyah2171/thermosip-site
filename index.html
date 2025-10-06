@@ -1,429 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ThermoSip - Smart Temperature Control Bottle</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-        
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f9f9f9;
-            color: #333;
-            overflow-x: hidden;
-        }
-        
-        .gradient-bg {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-        }
-        
-        .thermosip-blue {
-            color: #3a7bd5;
-        }
-        
-        .thermosip-gradient {
-            background: linear-gradient(to right, #00d2ff, #3a7bd5);
-        }
-        
-        .product-shadow {
-            box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.2);
-        }
-        
-        .temperature-display {
-            transition: all 0.3s ease;
-        }
-        
-        .temperature-control {
-            -webkit-appearance: none;
-            width: 100%;
-            height: 8px;
-            border-radius: 4px;
-            background: linear-gradient(to right, #00d2ff, #3a7bd5);
-            outline: none;
-        }
-        
-        .temperature-control::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: white;
-            cursor: pointer;
-            border: 3px solid #3a7bd5;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        }
-        
-        .feature-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.15);
-        }
-        
-        .pulse-animation {
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(58, 123, 213, 0.4);
-            }
-            70% {
-                box-shadow: 0 0 0 15px rgba(58, 123, 213, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(58, 123, 213, 0);
-            }
-        }
-        
-        .thermosip-container {
-            perspective: 1000px;
-        }
-        
-        .thermosip-bottle {
-            transition: transform 0.5s ease;
-            transform-style: preserve-3d;
-        }
-        
-        .thermosip-bottle:hover {
-            transform: rotateY(15deg);
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ThermoSip | Smart Beverage Container</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+    header {
+      background: linear-gradient(to right, #1e1e1e, #3e3e3e);
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+    }
+    header h1 {
+      font-size: 3em;
+      margin-bottom: 10px;
+    }
+    header p {
+      font-size: 1.2em;
+    }
+    .cta-buttons a {
+      display: inline-block;
+      margin: 20px 10px;
+      padding: 12px 24px;
+      background-color: #ff6a00;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+    section {
+      padding: 40px 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .feature {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .feature h3 {
+      margin-top: 0;
+      color: #ff6a00;
+    }
+    .product-showcase {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .product {
+      background: white;
+      padding: 20px;
+      width: 280px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .product h4 {
+      margin: 10px 0;
+    }
+    .product button {
+      background-color: #ff6a00;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    footer {
+      background-color: #222;
+      color: white;
+      text-align: center;
+      padding: 30px 20px;
+    }
+    footer a {
+      color: #ff6a00;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+  </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0 flex items-center">
-                        <i class="fas fa-temperature-high text-3xl thermosip-blue"></i>
-                        <span class="ml-2 text-xl font-bold thermosip-blue">ThermoSip</span>
-                    </div>
-                </div>
-                <div class="hidden md:ml-6 md:flex md:items-center md:space-x-8">
-                    <a href="#features" class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium">Features</a>
-                    <a href="#how-it-works" class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium">How It Works</a>
-                    <a href="#reviews" class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium">Reviews</a>
-                    <a href="#contact" class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium">Contact</a>
-                    <button class="thermosip-gradient text-white px-6 py-2 rounded-full font-medium hover:opacity-90 transition">Pre-order Now</button>
-                </div>
-                <div class="-mr-2 flex items-center md:hidden">
-                    <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none" aria-controls="mobile-menu" aria-expanded="false" id="mobile-menu-button">
-                        <span class="sr-only">Open main menu</span>
-                        <i class="fas fa-bars"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
 
-        <!-- Mobile menu -->
-        <div class="hidden md:hidden" id="mobile-menu">
-            <div class="pt-2 pb-3 space-y-1">
-                <a href="#features" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50">Features</a>
-                <a href="#how-it-works" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50">How It Works</a>
-                <a href="#reviews" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50">Reviews</a>
-                <a href="#contact" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50">Contact</a>
-                <button class="block w-full text-left px-3 py-2 text-base font-medium thermosip-gradient text-white rounded mx-2">Pre-order Now</button>
-            </div>
-        </div>
-    </nav>
+  <header>
+    <h1>ThermoSip</h1>
+    <p>Sip Smart. Stay Warm. Control your beverage temperature with a touch.</p>
+    <div class="cta-buttons">
+      <a href="#shop">Shop Now</a>
+      <a href="#learn">Learn More</a>
+    </div>
+  </header>
 
-    <!-- Hero Section -->
-    <section class="gradient-bg">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-            <div class="md:flex items-center justify-between">
-                <div class="md:w-1/2 mb-12 md:mb-0">
-                    <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-6">Your Perfect <span class="thermosip-blue">Temperature,</span> Every Sip</h1>
-                    <p class="text-lg text-gray-600 mb-8">ThermoSip's smart temperature control keeps your beverages at the ideal heat level for hours, with real-time monitoring and adjustment at your fingertips.</p>
-                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                        <button class="thermosip-gradient text-white px-8 py-3 rounded-full font-medium hover:opacity-90 transition flex items-center justify-center">
-                            <i class="fas fa-shopping-cart mr-2"></i> Order Now
-                        </button>
-                        <button class="bg-white text-blue-600 px-8 py-3 rounded-full font-medium hover:bg-gray-100 transition flex items-center justify-center">
-                            <i class="fas fa-play-circle mr-2"></i> Watch Demo
-                        </button>
-                    </div>
-                    <div class="mt-8 flex items-center">
-                        <div class="flex -space-x-2">
-                            <img class="inline-block h-10 w-10 rounded-full ring-2 ring-white" src="https://randomuser.me/api/portraits/women/12.jpg" alt="">
-                            <img class="inline-block h-10 w-10 rounded-full ring-2 ring-white" src="https://randomuser.me/api/portraits/men/33.jpg" alt="">
-                            <img class="inline-block h-10 w-10 rounded-full ring-2 ring-white" src="https://randomuser.me/api/portraits/women/44.jpg" alt="">
-                        </div>
-                        <div class="ml-4">
-                            <p class="text-sm font-medium text-gray-700">Trusted by 10,000+ customers</p>
-                            <div class="flex">
-                                <i class="fas fa-star text-yellow-400"></i>
-                                <i class="fas fa-star text-yellow-400"></i>
-                                <i class="fas fa-star text-yellow-400"></i>
-                                <i class="fas fa-star text-yellow-400"></i>
-                                <i class="fas fa-star text-yellow-400"></i>
-                                <span class="ml-1 text-sm text-gray-600">4.9/5</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="md:w-1/2 thermosip-container">
-                    <div class="relative thermosip-bottle">
-                        <div class="product-shadow rounded-3xl overflow-hidden">
-                            <div class="bg-white p-8 rounded-3xl">
-                                <div class="flex justify-center mb-6">
-                                    <div class="w-48 h-64 bg-gradient-to-b from-gray-100 to-gray-200 rounded-2xl relative overflow-hidden">
-                                        <!-- Bottle shape -->
-                                        <div class="absolute top-4 left-1/2 transform -translate-x-1/2 w-32 h-56 bg-white rounded-lg border-2 border-gray-200">
-                                            <!-- Liquid level indicator -->
-                                            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-b from-blue-100 to-blue-300 rounded-b-lg" style="height: 70%;"></div>
-                                            <!-- Smart display area -->
-                                            <div class="absolute top-4 left-1/2 transform -translate-x-1/2 w-20 h-16 bg-gray-800 rounded flex flex-col items-center justify-center">
-                                                <div id="temperatureDisplay" class="text-white font-bold text-xl temperature-display">72°C</div>
-                                                <div class="text-xs text-gray-400">THERMOSIP</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="text-center">
-                                    <h3 class="text-xl font-semibold mb-2">Smart Temperature Control</h3>
-                                    <p class="text-gray-600 mb-4">Adjust your drink's temperature with precision</p>
-                                    <div class="px-4">
-                                        <input type="range" min="40" max="90" value="72" class="temperature-control" id="temperatureControl">
-                                        <div class="flex justify-between text-xs text-gray-500 mt-1">
-                                            <span>40°C</span>
-                                            <span>65°C</span>
-                                            <span>90°C</span>
-                                        </div>
-                                    </div>
-                                    <div class="mt-6 flex justify-center space-x-4">
-                                        <button class="bg-gray-100 hover:bg-gray-200 rounded-full p-2 transition">
-                                            <i class="fas fa-bolt text-blue-500"></i>
-                                        </button>
-                                        <button class="bg-gray-100 hover:bg-gray-200 rounded-full p-2 transition">
-                                            <i class="fas fa-clock text-blue-500"></i>
-                                        </button>
-                                        <button class="bg-gray-100 hover:bg-gray-200 rounded-full p-2 transition">
-                                            <i class="fas fa-bell text-blue-500"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-blue-400 rounded-full opacity-20 -z-10"></div>
-                        <div class="absolute -top-4 -left-4 w-16 h-16 bg-blue-300 rounded-full opacity-20 -z-10"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+  <section id="learn">
+    <h2>Why ThermoSip?</h2>
+    <div class="features">
+      <div class="feature">
+        <h3>🔥 Adjustable Heat</h3>
+        <p>Control your drink’s warmth via smart heat-conductive metal.</p>
+      </div>
+      <div class="feature">
+        <h3>📱 Smart Display</h3>
+        <p>See the exact temperature on the built-in screen.</p>
+      </div>
+      <div class="feature">
+        <h3>⏱️ Quick Response</h3>
+        <p>Heats or cools within seconds for optimal sipping.</p>
+      </div>
+      <div class="feature">
+        <h3>🔋 Long Battery Life</h3>
+        <p>Stay powered for up to 48 hours on a single charge.</p>
+      </div>
+    </div>
+  </section>
 
-    <!-- Features Section -->
-    <section id="features" class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold mb-4">Smart Features for <span class="thermosip-blue">Perfect Temperature</span></h2>
-                <p class="text-gray-600 max-w-2xl mx-auto">ThermoSip combines advanced technology with elegant design to revolutionize how you enjoy hot beverages.</p>
-            </div>
-            
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="feature-card bg-white p-8 rounded-xl border border-gray-100">
-                    <div class="w-16 h-16 thermosip-gradient rounded-full flex items-center justify-center mb-6 text-white text-2xl">
-                        <i class="fas fa-thermometer-half"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-3">Precision Temperature Control</h3>
-                    <p class="text-gray-600">Set your exact preferred temperature between 40°C to 90°C with 1°C precision. The smart heating system maintains it perfectly for hours.</p>
-                </div>
-                
-                <div class="feature-card bg-white p-8 rounded-xl border border-gray-100">
-                    <div class="w-16 h-16 thermosip-gradient rounded-full flex items-center justify-center mb-6 text-white text-2xl">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-3">App Connectivity</h3>
-                    <p class="text-gray-600">Control your ThermoSip remotely via our mobile app. Set temperature schedules, receive notifications, and monitor battery life.</p>
-                </div>
-                
-                <div class="feature-card bg-white p-8 rounded-xl border border-gray-100">
-                    <div class="w-16 h-16 thermosip-gradient rounded-full flex items-center justify-center mb-6 text-white text-2xl">
-                        <i class="fas fa-battery-three-quarters"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-3">Long-lasting Battery</h3>
-                    <p class="text-gray-600">With our efficient heating technology, enjoy up to 12 hours of temperature control on a single charge. USB-C fast charging included.</p>
-                </div>
-                
-                <div class="feature-card bg-white p-8 rounded-xl border border-gray-100">
-                    <div class="w-16 h-16 thermosip-gradient rounded-full flex items-center justify-center mb-6 text-white text-2xl">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-3">Safe Materials</h3>
-                    <p class="text-gray-600">Premium stainless steel interior with food-grade coating. BPA-free, non-toxic materials ensure your drinks stay pure and safe.</p>
-                </div>
-                
-                <div class="feature-card bg-white p-8 rounded-xl border border-gray-100">
-                    <div class="w-16 h-16 thermosip-gradient rounded-full flex items-center justify-center mb-6 text-white text-2xl">
-                        <i class="fas fa-tint"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-3">Leak-proof Design</h3>
-                    <p class="text-gray-600">Our patented sealing technology prevents spills and leaks, making ThermoSip perfect for travel, work, or home use.</p>
-                </div>
-                
-                <div class="feature-card bg-white p-8 rounded-xl border border-gray-100">
-                    <div class="w-16 h-16 thermosip-gradient rounded-full flex items-center justify-center mb-6 text-white text-2xl">
-                        <i class="fas fa-lightbulb"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-3">Smart Sensors</h3>
-                    <p class="text-gray-600">Advanced sensors detect liquid level and temperature distribution for uniform heating and accurate display readings.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+  <section id="shop">
+    <h2>Choose Your ThermoSip</h2>
+    <div class="product-showcase">
+      <div class="product">
+        <h4>ThermoSip Classic</h4>
+        <p>12 oz · Matte Black</p>
+        <button>Add to Cart</button>
+      </div>
+      <div class="product">
+        <h4>ThermoSip Traveler</h4>
+        <p>16 oz · Stainless Steel</p>
+        <button>Add to Cart</button>
+      </div>
+      <div class="product">
+        <h4>ThermoSip Luxe</h4>
+        <p>14 oz · Rose Gold</p>
+        <button>Add to Cart</button>
+      </div>
+    </div>
+  </section>
 
-    <!-- How It Works Section -->
-    <section id="how-it-works" class="py-16 gradient-bg">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold mb-4">How <span class="thermosip-blue">ThermoSip</span> Works</h2>
-                <p class="text-gray-600 max-w-2xl mx-auto">Our innovative technology makes temperature control effortless and precise.</p>
-            </div>
-            
-            <div class="flex flex-col md:flex-row items-center">
-                <div class="md:w-1/2 mb-8 md:mb-0 md:pr-8">
-                    <div class="bg-white p-6 rounded-xl shadow-md">
-                        <div class="flex mb-4">
-                            <div class="w-12 h-12 thermosip-gradient rounded-full flex items-center justify-center text-white text-xl font-bold mr-4">1</div>
-                            <div>
-                                <h3 class="text-xl font-semibold">Fill & Set Temperature</h3>
-                                <p class="text-gray-600">Pour your favorite beverage and set your desired temperature using the touch display or mobile app.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex mb-4">
-                            <div class="w-12 h-12 thermosip-gradient rounded-full flex items-center justify-center text-white text-xl font-bold mr-4">2</div>
-                            <div>
-                                <h3 class="text-xl font-semibold">Smart Heating System Activates</h3>
-                                <p class="text-gray-600">Our advanced heating elements distribute heat evenly through the stainless steel walls for uniform temperature.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex">
-                            <div class="w-12 h-12 thermosip-gradient rounded-full flex items-center justify-center text-white text-xl font-bold mr-4">3</div>
-                            <div>
-                                <h3 class="text-xl font-semibold">Enjoy Perfect Temperature</h3>
-                                <p class="text-gray-600">The integrated sensors continuously monitor and adjust to maintain your set temperature for hours.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="md:w-1/2">
-                    <div class="relative">
-                        <img src="https://images.unsplash.com/photo-1602143407151-7111542de6e8?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="ThermoSip in use" class="rounded-xl shadow-lg">
-                        <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-blue-400 rounded-full opacity-20 -z-10"></div>
-                        <div class="absolute -top-6 -left-6 w-24 h-24 bg-blue-300 rounded-full opacity-20 -z-10"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+  <footer>
+    <p>&copy; 2025 ThermoSip Inc.</p>
+    <p>
+      <a href="#">About</a> |
+      <a href="#">Support</a> |
+      <a href="#">Privacy Policy</a>
+    </p>
+  </footer>
 
-    <!-- Reviews Section -->
-    <section id="reviews" class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold mb-4">What Our <span class="thermosip-blue">Customers</span> Say</h2>
-                <p class="text-gray-600 max-w-2xl mx-auto">Join thousands of satisfied customers enjoying perfectly heated beverages every day.</p>
-            </div>
-            
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-gray-50 p-8 rounded-xl">
-                    <div class="flex mb-4">
-                        <i class="fas fa-star text-yellow-400"></i>
-                        <i class="fas fa-star text-yellow-400"></i>
-                        <i class="fas fa-star text-yellow-400"></i>
-                        <i class="fas fa-star text-yellow-400"></i>
-                        <i class="fas fa-star text-yellow-400"></i>
-                    </div>
-                    <p class="text-gray-700 mb-6">"As a tea enthusiast, I've never been able to keep my tea at the perfect temperature for more than 20 minutes. ThermoSip has changed that completely. My Earl Grey stays at exactly 75°C for hours!"</p>
-                    <div class="flex items-center">
-                        <img class="w-12 h-12 rounded-full mr-4" src="https://randomuser.me/api/portraits/women/32.jpg" alt="Sarah J.">
-                        <div>
-                            <h4 class="font-semibold">Sarah J.</h4>
-                            <p class="text-sm text-gray-500">Tea Blogger</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-gray-50 p-8 rounded-xl">
-                    <div class="flex mb-4">
-                        <i class="fas fa-star text-yellow-400"></i>
-                        <i class="fas fa-star text-yellow-400"></i>
-                        <i class="fas fa-star text-yellow-400"></i>
-                        <i class="fas fa-star text-yellow-400"></i>
-                        <i class="fas fa-star text-yellow-400"></i>
-                    </div>
-                    <p class="text-gray-700 mb-6">"I'm a nurse working 12-hour shifts, and my coffee would always go cold. Now with ThermoSip, I have hot coffee whenever I need it. The battery lasts my entire shift with heating!"</p>
-                    <div class="flex items-center">
-                        <img class="w-12 h-12 rounded-full mr-4" src="https://randomuser.me/api/portraits/men/54.jpg" alt="Michael T.">
-                        <div>
-                            <h4 class="font-semibold">Michael T.</h4>
-                            <p class="text-sm text-gray-500">Registered Nurse</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-gray-50 p-8 rounded-xl">
-                    <div class="flex mb-4">
-                        <i class="fas fa-star text-yellow-400"></i>
-                        <i class="fas fa-star text-yellow-400"></i>
-                        <i class="fas fa-star text-yellow-400"></i>
-                        <i class="fas fa-star text-yellow-400"></i>
-                        <i class="fas fa-star text-yellow-400"></i>
-                    </div>
-                    <p class="text-gray-700 mb-6">"The app connectivity is fantastic. I can set my coffee to start heating before I even get out of bed. By the time I'm dressed, it's at the perfect drinking temperature."</p>
-                    <div class="flex items-center">
-                        <img class="w-12 h-12 rounded-full mr-4" src="https://randomuser.me/api/portraits/women/68.jpg" alt="Emma R.">
-                        <div>
-                            <h4 class="font-semibold">Emma R.</h4>
-                            <p class="text-sm text-gray-500">Software Developer</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="py-16 thermosip-gradient text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-3xl font-bold mb-6">Ready to Experience <br>Perfect Temperature Control?</h2>
-            <p class="text-xl mb-8 max-w-2xl mx-auto opacity-90">Join thousands of customers enjoying their beverages at the ideal temperature, anytime, anywhere.</p>
-            <button class="bg-white text-blue-600 px-8 py-4 rounded-full font-bold hover:bg-gray-100 transition flex items-center mx-auto pulse-animation">
-                <i class="fas fa-shopping-cart mr-3"></i> Order Your ThermoSip Now
-            </button>
-            <p class="mt-4 text-sm opacity-80">30-day money back guarantee • Free shipping • 2-year warranty</p>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="md:flex">
-                <div class="md:w-1/2 mb-8 md:mb-0 md:pr-8">
-                    <h2 class="text-3xl font-bold mb-6">Have Questions? <span class="thermosip-blue">Contact Us</span></h2>
-                    <p class="text-gray-600 mb-8">Our customer support team is happy to answer any questions you have about ThermoSip.</p>
-                    
-                    <div class="space-y-6">
-                        <div class="flex items-start">
-                            <div class="w-10 h-10 thermosip-gradient rounded-full flex items-center justify-center text-white mr-4 flex-shrink-0">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold mb-1">Email Us</h4>
-                                <p class="text-gray-600">support@thermosip.com</p>
-                            </div>
-                        </div>
-                        
-                        <
+</body>
 </html>
